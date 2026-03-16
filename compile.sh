@@ -3,6 +3,8 @@
 # Copyright (C) 2021 Xingwang Liao
 #
 
+set -e
+
 dir="$(cd "$(dirname "$0")" ; pwd)"
 
 package_name="frp"

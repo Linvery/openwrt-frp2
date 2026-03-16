@@ -31,6 +31,20 @@ GO_PKG_LDFLAGS:=-s -w
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+
+	if [ -f "$(PKG_BUILD_DIR)/web/frpc/package.json" ]; then \
+		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frpc" install; \
+		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frpc" build; \
+	fi
+
+	if [ -f "$(PKG_BUILD_DIR)/web/frps/package.json" ]; then \
+		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frps" install; \
+		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frps" build; \
+	fi
+endef
+
 define frp/templates
   define Package/$(1)
     TITLE:=A fast reverse proxy ($(1))
