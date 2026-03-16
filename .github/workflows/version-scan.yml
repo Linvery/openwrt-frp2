@@ -9,7 +9,6 @@ jobs:
   check:
     name: Check Version
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner }} == "kuoruan"
     permissions:
       contents: write
     steps:
