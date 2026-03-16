@@ -115,4 +115,6 @@ jobs:
       - name: Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: "*.ipk"
+          files: |
+            *.ipk
+            *.apk

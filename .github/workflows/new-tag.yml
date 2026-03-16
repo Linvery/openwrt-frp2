@@ -48,6 +48,7 @@ jobs:
           name: frp
           path: |
             *.ipk
+            *.apk
           if-no-files-found: error
           retention-days: 7
 
