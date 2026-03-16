@@ -8,7 +8,7 @@ set -e
 dir="$(cd "$(dirname "$0")" ; pwd)"
 
 package_name="frp"
-golang_commit="$OPENWRT_GOLANG_COMMIT"
+golang_commit="${OPENWRT_GOLANG_COMMIT:-$DEFAULT_OPENWRT_GOLANG_COMMIT}"
 
 cache_dir=${CACHE_DIR:-"~/cache"}
 
