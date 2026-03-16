@@ -99,7 +99,10 @@ sed -i \
 	-e 's#git.openwrt.org/feed/telephony#github.com/openwrt/telephony#' \
 	feeds.conf
 
-./scripts/feeds update -a
+if ! ./scripts/feeds update -a ; then
+	find "feeds" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+	./scripts/feeds update -a
+fi
 
 ( test -d "feeds/packages/net/$package_name" && \
 	rm -rf "feeds/packages/net/$package_name" ) || true
