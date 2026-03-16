@@ -11,17 +11,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       SDK_URL_PATH: https://downloads.openwrt.org/snapshots/targets/x86/64
-      SDK_NAME: -sdk-x86-64_
       ARCH: x86_64
       CACHE_DIR: ~/cache
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Cache
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ env.CACHE_DIR }}
           key: ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:cache:${{ github.run_number }}
@@ -31,7 +32,7 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update && \
-            sudo apt-get install -yq gettext libncurses5-dev xsltproc
+            sudo apt-get install -yq gettext libncurses5-dev xsltproc zstd
 
       - name: Prepare SDK Home
         run: |
@@ -43,9 +44,10 @@ jobs:
         run: sh compile.sh
 
       - name: Save Build Result
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: frp
           path: |
             *.ipk
+          if-no-files-found: error
           retention-days: 7

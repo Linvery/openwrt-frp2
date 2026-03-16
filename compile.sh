@@ -11,7 +11,7 @@ golang_commit="$OPENWRT_GOLANG_COMMIT"
 cache_dir=${CACHE_DIR:-"~/cache"}
 
 sdk_url_path=${SDK_URL_PATH:-"https://downloads.openwrt.org/snapshots/targets/x86/64"}
-sdk_name=${SDK_NAME:-"-sdk-x86-64_"}
+sdk_name=${SDK_NAME:-""}
 
 sdk_home=${SDK_HOME:-"~/sdk"}
 
@@ -29,10 +29,27 @@ test -d "$feeds_dir" || mkdir -p "$feeds_dir"
 
 cd "$sdk_dir"
 
-if ! ( wget -q -O - "$sdk_url_path/sha256sums" | \
-	grep -- "$sdk_name" > sha256sums.small 2>/dev/null ) ; then
-	echo "Can not find ${sdk_name} file in sha256sums."
+rm -f sha256sums.small
+
+if ! wget -q -O sha256sums "$sdk_url_path/sha256sums" ; then
+	echo "Can not fetch sha256sums from $sdk_url_path."
 	exit 1
+fi
+
+sdk_match_pattern='openwrt-sdk-.*Linux-x86_64\.tar\.\(xz\|zst\)$'
+
+if [ -n "$sdk_name" ] ; then
+	if ! grep -- "$sdk_name" sha256sums > sha256sums.small 2>/dev/null ; then
+		echo "Can not find ${sdk_name} file in sha256sums, falling back to automatic SDK detection."
+	fi
+fi
+
+if [ ! -s sha256sums.small ] ; then
+	grep "$sdk_match_pattern" sha256sums | head -n 1 > sha256sums.small 2>/dev/null || true
+	if [ ! -s sha256sums.small ] ; then
+		echo "Can not find SDK file in sha256sums."
+		exit 1
+	fi
 fi
 
 sdk_file="$(cut -d' ' -f2 < sha256sums.small | sed 's/*//g')"
@@ -49,7 +66,18 @@ fi
 cd "$dir"
 
 file "$sdk_dir/$sdk_file"
-tar -Jxf "$sdk_dir/$sdk_file" -C "$sdk_home_dir" --strip=1
+case "$sdk_file" in
+	*.tar.xz)
+		tar -Jxf "$sdk_dir/$sdk_file" -C "$sdk_home_dir" --strip=1
+		;;
+	*.tar.zst)
+		tar --zstd -xf "$sdk_dir/$sdk_file" -C "$sdk_home_dir" --strip=1
+		;;
+	*)
+		echo "Unsupported SDK archive format: $sdk_file"
+		exit 1
+		;;
+esac
 
 cd "$sdk_home_dir"
 

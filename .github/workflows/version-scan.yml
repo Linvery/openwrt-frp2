@@ -10,20 +10,22 @@ jobs:
     name: Check Version
     runs-on: ubuntu-latest
     if: ${{ github.repository_owner }} == "kuoruan"
+    permissions:
+      contents: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.PAT }}
 
       - name: Get Latest Version
         id: get_version
-        uses: actions/github-script@v3
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
           script: |
-            const { data } = await github.repos.getLatestRelease({
+            const { data } = await github.rest.repos.getLatestRelease({
               owner: "fatedier",
               repo: "frp"
             });
@@ -44,11 +46,11 @@ jobs:
             source_hash="$(curl -sL \
               "https://codeload.github.com/fatedier/frp/tar.gz/v$latest_version" | \
               sha256sum | cut -d' ' -f1)"
-            echo "::set-output name=version::$latest_version"
-            echo "::set-output name=source_hash::$source_hash"
+            echo "version=$latest_version" >> "$GITHUB_OUTPUT"
+            echo "source_hash=$source_hash" >> "$GITHUB_OUTPUT"
           else
-            echo "::set-output name=version::"
-            echo "::set-output name=source_hash::"
+            echo "version=" >> "$GITHUB_OUTPUT"
+            echo "source_hash=" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Commit New Version
