@@ -8,11 +8,20 @@ OpenWrt/LEDE 上可用的 Frp 客户端/服务端
 
 ## 安装说明
 
-1. 到 [release](https://github.com/kuoruan/openwrt-frp/releases) 页面下载最新版的`frpc` 或 `frps`（注：请根据你的路由器架构下载对应版本）
+1. 到 [release](https://github.com/kuoruan/openwrt-frp/releases) 页面下载最新版的 `frpc` 或 `frps`
+
+   `*.apk` 适用于 OpenWrt snapshots / 25.12 及更新版本
+
+   `*.ipk` 适用于 OpenWrt 24.10 及更早版本
 
 2. 将文件上传到你的路由器上，进行安装
 
 ```sh
+# OpenWrt snapshots / 25.12+
+apk add --allow-untrusted ./frpc-*.apk
+apk add --allow-untrusted ./frps-*.apk
+
+# OpenWrt 24.10 and older
 opkg install frpc_*.ipk
 opkg install frps_*.ipk
 ```

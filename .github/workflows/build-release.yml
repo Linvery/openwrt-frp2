@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    name: Build for ${{ matrix.arch }}
+    name: Build ${{ matrix.package_format }} for ${{ matrix.arch }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -16,55 +16,197 @@ jobs:
       matrix:
         include:
           - arch: aarch64_cortex-a53
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm27xx/bcm2710
           - arch: aarch64_cortex-a72
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/mvebu/cortexa72
           - arch: aarch64_generic
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/layerscape/armv8_64b
           - arch: arm_arm1176jzf-s_vfp
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm27xx/bcm2708
           - arch: arm_arm926ej-s
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/at91/sam9x
           - arch: arm_cortex-a15_neon-vfpv4
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/ipq806x/generic
           - arch: arm_cortex-a5-vfpv4
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/at91/sama5
           - arch: arm_cortex-a7_neon-vfpv4
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm27xx/bcm2709
           - arch: arm_cortex-a8_vfpv3
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/sunxi/cortexa8
           - arch: arm_cortex-a9
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm53xx/generic
           - arch: arm_cortex-a9_neon
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/imx/cortexa9
           - arch: arm_cortex-a9_vfpv3
+            package_format: ipk
+            cache_scope: 19.07.2
             sdk_url_path: https://downloads.openwrt.org/releases/19.07.2/targets/mvebu/cortexa9
           - arch: arm_cortex-a9_vfpv3-d16
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/mvebu/cortexa9
           - arch: arm_fa526
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/gemini/generic
           - arch: arm_xscale
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/kirkwood/generic
           - arch: i386_pentium
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/x86/legacy
           - arch: i386_pentium4
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/x86/generic
           - arch: mips64_octeon
+            package_format: ipk
+            cache_scope: 18.06.5
             sdk_url_path: https://downloads.openwrt.org/releases/18.06.5/targets/octeon/generic
           - arch: mips64_octeonplus
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/octeon/generic
           - arch: mipsel_24kc
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/ramips/mt7620
           - arch: mipsel_24kc_24kf
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/pistachio/generic
           - arch: mipsel_74kc
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm47xx/mips74k
           - arch: mipsel_mips32
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/bcm47xx/generic
           - arch: mips_24kc
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/ath79/generic
           - arch: x86_64
+            package_format: apk
+            cache_scope: snapshot
             sdk_url_path: https://downloads.openwrt.org/snapshots/targets/x86/64
+          - arch: aarch64_cortex-a53
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm27xx/bcm2710
+          - arch: aarch64_cortex-a72
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/mvebu/cortexa72
+          - arch: aarch64_generic
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/layerscape/armv8_64b
+          - arch: arm_arm1176jzf-s_vfp
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm27xx/bcm2708
+          - arch: arm_arm926ej-s
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/at91/sam9x
+          - arch: arm_cortex-a15_neon-vfpv4
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/ipq806x/generic
+          - arch: arm_cortex-a5-vfpv4
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/at91/sama5
+          - arch: arm_cortex-a7_neon-vfpv4
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm27xx/bcm2709
+          - arch: arm_cortex-a8_vfpv3
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/sunxi/cortexa8
+          - arch: arm_cortex-a9
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm53xx/generic
+          - arch: arm_cortex-a9_neon
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/imx/cortexa9
+          - arch: arm_cortex-a9_vfpv3-d16
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/mvebu/cortexa9
+          - arch: arm_fa526
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/gemini/generic
+          - arch: arm_xscale
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/kirkwood/generic
+          - arch: i386_pentium
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/x86/legacy
+          - arch: i386_pentium4
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/x86/generic
+          - arch: mips64_octeonplus
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/octeon/generic
+          - arch: mipsel_24kc
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/ramips/mt7620
+          - arch: mipsel_24kc_24kf
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/pistachio/generic
+          - arch: mipsel_74kc
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm47xx/mips74k
+          - arch: mipsel_mips32
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/bcm47xx/generic
+          - arch: mips_24kc
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/ath79/generic
+          - arch: x86_64
+            package_format: ipk
+            cache_scope: 24.10.5
+            sdk_url_path: https://downloads.openwrt.org/releases/24.10.5/targets/x86/64
           # - arch: arc_arc700
           #   sdk_url_path: https://downloads.openwrt.org/snapshots/targets/arc770/generic
           #   sdk_name: -sdk-arc770-generic_
@@ -93,10 +235,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.CACHE_DIR }}
-          key: ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:release:cache:${{ github.run_number }}
+          key: ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:${{ matrix.cache_scope }}:release:cache:${{ github.run_number }}
           restore-keys: |
-            ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:release:cache:
-            ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:cache:
+            ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:${{ matrix.cache_scope }}:release:cache:
+            ${{ runner.os }}:openwrt-frp:${{ env.ARCH }}:${{ matrix.cache_scope }}:cache:
 
       - name: Install Dependencies
         run: |
@@ -111,6 +253,14 @@ jobs:
         env:
           OPENWRT_GOLANG_COMMIT: ${{ secrets.OPENWRT_GOLANG_COMMIT }}
         run: sh compile.sh
+
+      - name: Normalize APK Asset Names
+        if: matrix.package_format == 'apk'
+        run: |
+          for file in *.apk; do
+            [ -e "$file" ] || continue
+            mv "$file" "${file%.apk}-${ARCH}.apk"
+          done
 
       - name: Release and Upload Assets
         uses: softprops/action-gh-release@v2
