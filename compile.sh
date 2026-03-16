@@ -100,9 +100,27 @@ sed -i \
 	feeds.conf
 
 if ! ./scripts/feeds update -a ; then
-	find "feeds" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-	./scripts/feeds update -a
+	missing_feed_index=0
+
+	for feed in base packages luci routing telephony ; do
+		if [ ! -s "feeds/${feed}.index" ] ; then
+			missing_feed_index=1
+			break
+		fi
+	done
+
+	if [ "$missing_feed_index" -eq 1 ] ; then
+		find "feeds" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+		./scripts/feeds update -a || true
+	fi
 fi
+
+for feed in base packages luci routing telephony ; do
+	if [ ! -s "feeds/${feed}.index" ] ; then
+		echo "Feed index feeds/${feed}.index is missing."
+		exit 1
+	fi
+done
 
 ( test -d "feeds/packages/net/$package_name" && \
 	rm -rf "feeds/packages/net/$package_name" ) || true

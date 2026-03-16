@@ -35,13 +35,11 @@ define Build/Prepare
 	$(call Build/Prepare/Default)
 
 	if [ -f "$(PKG_BUILD_DIR)/web/frpc/package.json" ]; then \
-		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frpc" install; \
-		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frpc" build; \
+		cd "$(PKG_BUILD_DIR)/web/frpc" && npm install && npm run build; \
 	fi
 
 	if [ -f "$(PKG_BUILD_DIR)/web/frps/package.json" ]; then \
-		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frps" install; \
-		$(MAKE) -C "$(PKG_BUILD_DIR)/web/frps" build; \
+		cd "$(PKG_BUILD_DIR)/web/frps" && npm install && npm run build; \
 	fi
 endef
 
